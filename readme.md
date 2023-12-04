@@ -2,5 +2,10 @@
 
 # 環境
 python 3.12.0
+(あとでrequirements.txtを作ってパッケージの情報をまとめる)
+
+# サンプルデータ
+data/配下に保存
+ファイル数が多いため、リポジトリには各種１個ずつgitの管理対象としている
 
 source keiba-ai/Scripts/activate
