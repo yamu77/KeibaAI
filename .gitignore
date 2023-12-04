@@ -1,2 +1,5 @@
-data/*
-keiba-ai/*
+/data/Race-Results/*/*
+/data/Horse-Results/*
+/keiba-ai/*
+!/data/Race-Results/2022/01010101.pkl
+!/data/Horse-Results/2014100555.pkl
