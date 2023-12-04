@@ -1,0 +1,19 @@
+
+# ==================== Emojis ====================
+# 🎉  :tada: ファイルの追加
+# ✨  :sparkles: 新機能の追加
+# 🐛  :bug: 不具合修正
+# ♻️  :recycle: リファクタリング
+# ⚡️  :zap: 修正・更新
+# 📝  :memo: ドキュメント更新
+# 🎨  :art: デザイン・画像の更新
+# 🔥  :fire: 不具合あり(未解消)
+# 🚨  :rotating_light: テストアップ
+# 🗑️  :wastebasket: 削除
+# 🚧  :construction: 作業途中
+
+
+# ==================== Format ====================
+# :emoji: Subject
+#
+# Commit body...
