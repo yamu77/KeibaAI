@@ -1,5 +1,6 @@
-/data/Race-Results/*/*
-/data/Horse-Results/*
+/Raw-Data/Race-Results/*/*
+/Raw-Data/Horse-Results/*
+/Raw-Data/Pedigree/*
+/Raw-Data/Pedigree-Results/*
 /keiba-ai/*
-!/data/Race-Results/2022/01010101.pkl
-!/data/Horse-Results/2014100555.pkl
+/競馬予想AI_NN1.ipynb
