@@ -8,4 +8,7 @@ python 3.12.0
 data/配下に保存
 ファイル数が多いため、リポジトリには各種１個ずつgitの管理対象としている
 
+.pkl：pickle形式で保存したデータフレーム
+.pickle：pickle 形式で保存したデータフレーム以外のオブジェクト
+
 source keiba-ai/Scripts/activate
