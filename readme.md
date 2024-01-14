@@ -11,4 +11,4 @@ data/配下に保存
 .pkl：pickle形式で保存したデータフレーム
 .pickle：pickle 形式で保存したデータフレーム以外のオブジェクト
 
-source keiba-ai/Scripts/activate
+source py311/Scripts/activate
