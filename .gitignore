@@ -2,6 +2,8 @@
 /Raw-Data/Horse-Results/*.pkl
 /Raw-Data/Pedigree/*.pickle
 /Raw-Data/Pedigree-Results/*.pkl
+/Processed-Data/Horse-Results/*.pkl
 /tmp/*.pkl
 /keiba-ai/*
+/py311/*
 /競馬予想AI_NN1.ipynb
