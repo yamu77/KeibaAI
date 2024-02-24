@@ -1,7 +1,5 @@
-/Raw-Data/Race-Results/*/*.pkl
-/Raw-Data/Horse-Results/*.pkl
-/Raw-Data/Pedigree/*.pickle
-/Raw-Data/Pedigree-Results/*.pkl
+/Raw-Data/**/*.pkl
+/Raw-Data/**/*.pickle
 /Processed-Data/Horse-Results/*.pkl
 /tmp/*.pkl
 /keiba-ai/*
