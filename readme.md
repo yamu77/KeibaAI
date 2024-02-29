@@ -12,3 +12,16 @@ data/配下に保存
 .pickle：pickle 形式で保存したデータフレーム以外のオブジェクト
 
 source py311/Scripts/activate
+
+# ファイルの説明
+## ./models/
+### horse_result_encoder.pickle  
+過去成績に対してダミー変数化をするためのモデル  
+### horse_result_VAE.pth  
+過去成績に対してVAEによる変換をするためのモデル  
+### horse_results_scaler.pickle  
+過去成績に対して標準化をするためのモデル  
+### pedigree_pca.pickle  
+親データに対してPCAをするためのモデル  
+### race-info-encoder.pkl  
+レース情報に対してダミー変数化をするためのモデル  
