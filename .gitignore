@@ -1,6 +1,7 @@
 /Raw-Data/**/*.pkl
 /Raw-Data/**/*.pickle
-/Processed-Data/Horse-Results/*.pkl
+/Processed-Data/**/*.pkl
+/Processed-Data/**/*.pickle
 /tmp/*.pkl
 /keiba-ai/*
 /py311/*
