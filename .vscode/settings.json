@@ -1,0 +1,21 @@
+{
+    "cSpell.words": [
+        "arange",
+        "astype",
+        "dtype",
+        "fillna",
+        "iloc",
+        "iterrows",
+        "Mish",
+        "nheads",
+        "nlayers",
+        "optim",
+        "optuna",
+        "randn",
+        "reparameterize",
+        "tmps",
+        "topk",
+        "tqdm",
+        "unsqueeze"
+    ]
+}
