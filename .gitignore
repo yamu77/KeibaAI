@@ -4,6 +4,5 @@
 /Processed-Data/**/*.pickle
 /tmp/*.pkl
 /tmp/*.txt
-/keiba-ai/*
 /py311/*
-/競馬予想AI_NN1.ipynb
+/.vscode/*
