@@ -5,8 +5,13 @@
 
 ## 環境
 
-python 3.11.7
-パッケージ（主要なものだけ記載しています。詳しくはrequirements.txtを見てください）  
+### pythonバージョン
+
+3.11.7
+
+### パッケージ  
+
+（主要なものだけ記載しています。詳しくはrequirements.txtを見てください）  
 |パッケージ名|バージョン|
 |-----|-----|
 |pandas|2.1.4|
@@ -29,29 +34,24 @@ data/配下に保存
 
 source py311/Scripts/activate
 
-## ディレクトリ・ファイルの説明
+## 各ディレクトリ・ファイルの説明
 
-### models
+### [models](./models/)  
 
 作成したモデルを格納
-[models/](./models/models.md)
 
-### Processed-Data
+### [Processed-Data](./Processed-Data/)
 
 加工済みのデータを格納  
-[Processed-Data/](./Processed-Data/processed.md)
 
-### Raw-Data
+### [Raw-Data](./Raw-Data/)
 
 スクレイピングで入手したデータを格納  
-[Raw-Data/](./Raw-Data/raw.md)
 
-### src
+### [src](./src/)
 
 ソースコードを格納  
-[src/](./src/src.md)
 
-### template
+### [template](./template/)
 
 データの加工に使用したデータフレームのひな形を格納  
-[template/](./template/template.md)
