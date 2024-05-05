@@ -6,3 +6,11 @@
 /tmp/*.txt
 /py311/*
 /.vscode/*
+
+!Processed-Data/Horse-Results/2011100643.pkl
+!Processed-Data/Race-Results/0.pickle
+!Processed-Data/Race-Results-single/0.pickle
+!Raw-Data/Horse-Results/2004101502.pkl
+!Raw-Data/Pedigree/2004101502.pickle
+!Raw-Data/Pedigree-Results/000a0000ae.pkl
+!Raw-Data/Race-Results/2023/01010101.pkl
