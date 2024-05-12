@@ -1,6 +1,4 @@
-# 概要
-
-学習用データ作成に使うひな形を格納
+# 各ファイル説明
 
 ## pedigree_results_template.pkl
 

@@ -26,7 +26,7 @@
 
 ## nn/multi-pred.pkl
 
-3着以内に入る馬を3頭予測するモデル  
+3着以内に入る馬を予測するモデル  
 
 ## nn/single-pred.pkl
 
