@@ -303,6 +303,8 @@ for i in tqdm(race_id_list):
         raise e
 ```
 
+[データサンプル](./Raw-Data/sample/Race-Results.csv)
+
 短時間で大量のリクエストを送るとサーバーに負荷をかけてしまうので`time.sleep(1)`で1秒で1ページのスクレイピングを行うようにしています。
 > ["!note]
 > 1秒待つというルールがありますが、1経験的な値であるため必ずしも1秒待てば良いということではありません
@@ -393,6 +395,8 @@ for filename in tqdm(file_list):
         horse_results.scrape_save()
 ```
 
+[データサンプル](./Raw-Data/sample/Horse-Results.csv)
+
 ## 3.馬の血統
 
 馬の血統については直接学習データに組み込むわけではないですが、馬とその親馬を調べるために使用しています。
@@ -468,6 +472,8 @@ for filename in tqdm(file_list):
         pedigree = PedigreeInfo(f"{filename}", save_path=save_path)
         pedigree.scrape_save()
 ```
+
+[データサンプル](./Raw-Data/sample/Pedigree.csv)
 
 ## 4.親馬の過去成績
 
@@ -581,3 +587,5 @@ for filename in tqdm(dir_list):
         print(filename)
         raise e
 ```
+
+[データサンプル](./Raw-Data/sample/Pedigree-Results.csv)
