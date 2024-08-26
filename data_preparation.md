@@ -439,6 +439,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ```
 
 学習用データはpickleファイルで保存しているので、ファイルパスだけ渡してデータローダー側でデータの読み込みとテンソル化を行っています。  
+データではなくファイルパスだけ渡すのは、将来的にデータが増えるとメモリが足りなくなる可能性があるためです。
 
 ```python
 def objective(trial):
@@ -482,7 +483,7 @@ best_params = study.best_params
 best_value = study.best_trial.value
 ```
 
-学習の前にオプティマイザを使用してパラメータを探索しています。
+学習の前にオプティマイザを使用してパラメータを探索します。
 
 ```python
 # モデルのインスタンス化
