@@ -1,14 +1,5 @@
-/Raw-Data/**/*.pkl
-/Raw-Data/**/*.pickle
-/Processed-Data/**/*.pkl
-/Processed-Data/**/*.pickle
 /tmp/*.pkl
 /tmp/*.txt
 /py311/*
 /.vscode/*
-
-!Processed-Data/**/.gitkeep
-!/Raw-Data/Race-Results/**/*.pkl
-!/Raw-Data/Horse-Results/**/*.pkl
-!/Raw-Data/Pedigree/**/*.pickle
-!Raw-Data/**/.gitkeep
+/memo.txt
