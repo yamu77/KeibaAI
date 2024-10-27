@@ -8,4 +8,7 @@
 /.vscode/*
 
 !Processed-Data/**/.gitkeep
+!/Raw-Data/Race-Results/**/*.pkl
+!/Raw-Data/Horse-Results/**/*.pkl
+!/Raw-Data/Pedigree/**/*.pickle
 !Raw-Data/**/.gitkeep
