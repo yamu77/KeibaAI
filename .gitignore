@@ -3,3 +3,5 @@
 /py311/*
 /.vscode/*
 /memo.txt
+/Raw-Data/*
+/Processed-Data/*
