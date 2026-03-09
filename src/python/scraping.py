@@ -9,7 +9,7 @@ import time
 import os
 import io
 import re
-from abc import ABC
+from abc import ABC, abstractmethod
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup as bs
@@ -35,6 +35,17 @@ class BaseScraper(ABC):
                 "Chrome/130.0.0.0 Safari/537.36"
             )
         }
+
+    @abstractmethod
+    @classmethod
+    def save(cls, data, path: str, **kwargs) -> None:
+        """データを保存する抽象メソッド
+
+        Args:
+            data: 保存するデータ
+            path (str): 保存先のファイルパス
+            **kwargs: その他のオプション引数
+        """
 
 
 # ============================================================================
@@ -138,7 +149,8 @@ class RaceResult(BaseScraper):
         # レース情報
         lxml_data = html.fromstring(str(soup))
         raw_info1 = lxml_data.xpath(
-            "//*[@id='main']/div/div/div/diary_snap/div/div/dl/dd/p/diary_snap_cut/span"
+            "//*[@id='main']/div/div/div/diary_snap"
+            "/div/div/dl/dd/p/diary_snap_cut/span"
         )[0]
         raw_info_text1 = re.sub(r"\s", "", raw_info1.text)
         for item in raw_info_text1.split("/"):
@@ -197,7 +209,7 @@ class RaceResult(BaseScraper):
         match_race_class = re.search(r"G1|G2|G3|L", race_name)
         if match_race_class:
             results["class"] = match_race_class.group()
-        if not ("class" in results.columns):
+        if "class" not in results.columns:
             print(raw_info_text1.split("/"))
             print(raw_info_text2.split(" "))
             print(race_name)
@@ -210,21 +222,24 @@ class RaceResult(BaseScraper):
         results["round"] = race_round
         return results
 
-    def save_race_results_pkl(self, path: str) -> None:
-        """レース結果をpklで保存する
+    @classmethod
+    def save(
+        cls, data: pd.DataFrame, path: str, file_format: str = "pkl", **kwargs
+    ) -> None:
+        """レース結果を保存する
 
         Args:
+            data (pd.DataFrame): 保存するレース結果データ
             path (str): 保存するパス
+            file_format (str): 保存形式（'pkl'または'csv'）。デフォルトは'pkl'
+            **kwargs: その他のオプション引数
         """
-        self.race_result.to_pickle(path)
-
-    def save_race_results_csv(self, path: str) -> None:
-        """レース結果をcsvで保存する
-
-        Args:
-            path (str): 保存するパス
-        """
-        self.race_result.to_csv(path)
+        if file_format == "pkl":
+            data.to_pickle(path)
+        elif file_format == "csv":
+            data.to_csv(path)
+        else:
+            raise ValueError(f"Unsupported format: {file_format}. Use 'pkl' or 'csv'")
 
 
 class HorseResult(BaseScraper):
@@ -262,12 +277,14 @@ class HorseResult(BaseScraper):
             print(horse_id)
             raise e
 
-    def save(self, data: pd.DataFrame, name: str) -> None:
+    @classmethod
+    def save(cls, data: pd.DataFrame, path: str, **kwargs) -> None:
         """レース結果を保存する
 
         Args:
             data (pd.DataFrame): レース結果
-            name (str): 保存するファイル名
+            path (str): 保存するファイルパス（拡張子を含む）
+            **kwargs: その他のオプション引数
         """
         if data is None:
             return
@@ -275,15 +292,16 @@ class HorseResult(BaseScraper):
         data.columns = data.columns.str.replace(" ", "")
         data = data.sort_values(by="馬番")
         data = data.reset_index(drop=True)
-        data.to_pickle(f"{self.save_path}/{name}.pkl")
+        data.to_pickle(path)
 
     def scraping_and_save(self) -> None:
         """レース結果を取得して保存する"""
         for horse_id in self.horse_ids:
-            if os.path.isfile(f"{self.save_path}/{horse_id}.pkl"):
+            file_path = f"{self.save_path}/{horse_id}.pkl"
+            if os.path.isfile(file_path):
                 continue
             df = self.scraping(horse_id)
-            self.save(df, horse_id)
+            self.save(df, file_path)
             time.sleep(1)
 
 
@@ -325,25 +343,28 @@ class PedigreeInfo(BaseScraper):
             print(horse_id)
             raise e
 
-    def save(self, data: list[str] | None, name: str) -> None:
+    @classmethod
+    def save(cls, data: list[str] | None, path: str, **kwargs) -> None:
         """血統情報を保存する
 
         Args:
-            data (list[str]): 血統情報
-            name (str): 保存するファイル名
+            data (list[str] | None): 血統情報
+            path (str): 保存するファイルパス（拡張子を含む）
+            **kwargs: その他のオプション引数
         """
         if data is None:
             return
-        with open(f"{self.save_path}/{name}.pickle", "wb") as f:
+        with open(path, "wb") as f:
             pickle.dump(data, f)
 
     def scrape_save(self) -> None:
         for horse_id in self.horse_ids:
             # 既にファイルが存在しているなら飛ばす
-            if os.path.isfile(f"{self.save_path}/{horse_id}.pickle"):
+            file_path = f"{self.save_path}/{horse_id}.pickle"
+            if os.path.isfile(file_path):
                 continue
             peds_list = self.scrape(horse_id)
-            self.save(peds_list, horse_id)
+            self.save(peds_list, file_path)
 
 
 # ============================================================================
@@ -393,7 +414,7 @@ class PedigreeResults(BaseScraper):
         try:
             df.columns = ["_".join(col).strip() for col in df.columns.values]
             df = df[df["年度_年度"] != "累計"]
-        except:
+        except Exception:
             df = None
         return df
 
@@ -442,12 +463,12 @@ class PedigreeResults(BaseScraper):
             target_element2 = soup.select_one('table[summary="成績"]')
             df_tmp1 = (
                 pd.read_html(io.StringIO(str(target_element1)))[0]
-                if target_element1 != None
+                if target_element1 is not None
                 else None
             )
             df_tmp2 = (
                 pd.read_html(io.StringIO(str(target_element2)))[0]
-                if target_element2 != None
+                if target_element2 is not None
                 else None
             )
             df = {
@@ -467,7 +488,7 @@ class PedigreeResults(BaseScraper):
             html_string = io.StringIO(response.text)
             try:
                 tables = pd.read_html(html_string)
-            except:
+            except Exception:
                 return [None, None]
             dfs = []
             first_loop = True
@@ -512,7 +533,7 @@ class PedigreeResults(BaseScraper):
             html_string = io.StringIO(response.text)
             try:
                 tables = pd.read_html(html_string)
-            except:
+            except Exception:
                 return [None, None]
             dfs = []
             first_loop = True
@@ -551,20 +572,21 @@ class PedigreeResults(BaseScraper):
             raise e
         return dfs
 
-    def save(self, data: dict | None, name: str) -> None:
+    @classmethod
+    def save(cls, data: dict | None, path: str, **kwargs) -> None:
         """レース結果を保存する
 
         Args:
-            data (dict): レース結果の辞書
-            name (str): 保存するファイル名
+            data (dict | None): レース結果の辞書
+            path (str): 保存するファイルパス（拡張子を含む）
+            **kwargs: その他のオプション引数
         """
         if data is None:
             return
-        with open(f"{self.save_path}/{name}.pickle", "wb") as f:
+        with open(path, "wb") as f:
             pickle.dump(data, f)
 
     def scrape_save(self, sleep_rate=2) -> None:
-        tim_add = 0
         for horse_id in self.horse_ids:
             # 既にファイルが作成されていればスルー
             if os.path.isfile(f"{self.save_path}/{horse_id}.pickle"):
@@ -595,7 +617,8 @@ class PedigreeResults(BaseScraper):
                 "sire_course": df_sire_course,
                 "sire_distance": df_sire_distance,
             }
-            self.save(df, horse_id)
+            file_path = f"{self.save_path}/{horse_id}.pickle"
+            self.save(df, file_path)
 
 
 # ============================================================================
@@ -623,19 +646,35 @@ class JockeyResults(BaseScraper):
         clean_name = re.sub(r"\s*\(.*\)", "", name)
         try:
             tables = pd.read_html(html_string)[0]
-        except:
+        except Exception:
             tables = None
         if tables is not None:
             tables.columns = ["_".join(col).strip() for col in tables.columns.values]
         jockey = {"id": jockey_id, "name": clean_name, "results": tables}
         return jockey
 
-    def save(self, path: str) -> None:
+    @classmethod
+    def save(cls, data: dict, path: str, **kwargs) -> None:
+        """騎手情報を保存する
+
+        Args:
+            data (dict): 騎手情報の辞書
+            path (str): 保存するファイルパス（拡張子を含む）
+            **kwargs: その他のオプション引数
+        """
+        with open(path, "wb") as f:
+            pickle.dump(data, f)
+
+    def save_all(self, path: str) -> None:
+        """すべての騎手情報を保存する
+
+        Args:
+            path (str): 保存先のディレクトリパス
+        """
         for jockey_id in self.jockey_ids:
             file_name = f"{path}/{jockey_id}.pickle"
             if os.path.exists(file_name):
                 continue
             result = self.scrape_results(jockey_id)
-            with open(file_name, "wb") as f:
-                pickle.dump(result, f)
+            self.save(result, file_name)
             time.sleep(1.5)
